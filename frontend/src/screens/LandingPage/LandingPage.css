@@ -1,0 +1,48 @@
+h1 {
+  font-size: 75px;
+}
+p {
+  font-size: 25px;
+  padding-top: 10px;
+}
+.container-text {
+  width: 100%;
+  text-align: center;
+}
+.main {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  /* background-image: url("../../background1.jpg"); */
+  background-position: center;
+  background-size: cover;
+}
+.container-button {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.resize-button {
+  width: 160px;
+  height: 55px;
+}
+
+@media only screen and (min-width: 1200px) {
+  h1 {
+    padding: 0 100px;
+  }
+  .container-button {
+    padding: 0 200px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  h1 {
+    font-size: 60px;
+  }
+  .resize-button {
+    width: 120px;
+    height: 50px;
+  }
+}

@@ -7,6 +7,16 @@ dotenv.config();
 
 const PORT = process.env.PORT || 6000;
 
+// Add Access Control Allow Origin headers to avoid cors policy error
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*"); // * to allow all the sites we can give url too
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
+
 app.get("/", (req, res) => {
   res.send(`api is running....`);
 });
