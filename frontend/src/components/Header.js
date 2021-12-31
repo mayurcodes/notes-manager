@@ -7,9 +7,10 @@ import {
   Navbar,
   NavDropdown,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Header = () => {
+  const history = useHistory();
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
@@ -38,7 +39,14 @@ const Header = () => {
                 Edit Profile
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="/">
+              <NavDropdown.Item
+                as={Link}
+                to="/"
+                onClick={() => {
+                  localStorage.removeItem("userInfo");
+                  history.push("/");
+                }}
+              >
                 Logout
               </NavDropdown.Item>
             </NavDropdown>

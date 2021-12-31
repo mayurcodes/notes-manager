@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./screens/LandingPage/LandingPage";
 import MyNotes from "./screens/MyNotes/MyNotes";
+import LoginScreen from "./screens/LoginScreen/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
 
 function App() {
   return (
@@ -18,7 +20,12 @@ function App() {
             <Route path="/mynotes">
               <MyNotes />
             </Route>
-            <Route></Route>
+            <Route path="/register">
+              <RegisterScreen />
+            </Route>
+            <Route path="/login">
+              <LoginScreen />
+            </Route>
           </Switch>
         </main>
         <Footer />
