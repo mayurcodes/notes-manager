@@ -1,44 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen/MainScreen";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
 import Loading from "../../components/Loading/Loading";
 import AlertMessage from "../../components/AlertMessage/AlertMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../actions/userActions";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { isPending, error, userInfo } = userLogin;
   const history = useHistory();
 
-  // useEffect(() => {
-  //   const userInfo = localStorage.getItem("userLogin");
-
-  //   if (userInfo) {
-  //     history.push("/mynotes");
-  //   }
-  // }, [history]);
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/mynotes");
+    }
+  }, [history, userInfo]);
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    const userCred = { email, password };
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    setIsPending(true);
-
-    try {
-      const userLogin = await axios.post("/api/users/login", userCred, config);
-      //saving data in local storage
-      console.log(userLogin);
-      localStorage.setItem("userInfo", JSON.stringify(userLogin.data));
-      setIsPending(false);
-      history.push("/mynotes");
-    } catch (error) {
-      setError(error.response.data.message);
-      setIsPending(false);
-    }
+    dispatch(login(email, password));
   };
 
   return (
@@ -90,7 +76,7 @@ const LoginScreen = () => {
             New user?{" "}
             <Link
               to="/register"
-              style={{ textDecoration: "none", color: "inherit" }}
+              style={{ textDecoration: "none", color: "grey" }}
             >
               Register here
             </Link>

@@ -47,4 +47,31 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, authUser };
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await userModel.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.profilePic = req.body.profilePic || user.profilePic;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      profilePic: updatedUser.profilePic,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser.id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+module.exports = { registerUser, authUser, updateUserProfile };

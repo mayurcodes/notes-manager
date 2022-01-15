@@ -5,6 +5,9 @@ import AlertMessage from "../../components/AlertMessage/AlertMessage";
 import Loading from "../../components/Loading/Loading";
 import MainScreen from "../../components/MainScreen/MainScreen";
 import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../actions/userActions";
+import { useEffect } from "react";
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
@@ -14,34 +17,26 @@ const RegisterScreen = () => {
   const [profilePic, setProfilePic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
-  const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
-  const [isPending, setIsPending] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const { isPending, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/");
+    }
+  }, [history, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userInfo = { name, email, password, profilePic };
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    setIsPending(true);
 
     if (password !== confirmPassword) {
-      setMessage("passwords do not match");
-      setIsPending(false);
+      setMessage("Password do not match!");
     } else {
-      setMessage(null);
-      try {
-        const userRegister = await axios.post("/api/users", userInfo, config);
-        //save data into local storage
-        localStorage.setItem("userInfo", JSON.stringify(userRegister.data));
-        setIsPending(false);
-        history.push("/login");
-      } catch (error) {
-        setError(error.response.data.message);
-        setIsPending(false);
-      }
+      dispatch(register(name, email, password, profilePic));
     }
   };
 
