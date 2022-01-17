@@ -18,13 +18,13 @@ app.use("/api/users", userRoute);
 app.use("/api/notes", notesRoute);
 
 //deployment
-// const __dirname = path.resolve();
+const __newdirname = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.use(express.static(path.join(__newdirname, "/frontend/build")));
 
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+    res.sendFile(path.resolve(__newdirname, "frontend", "build", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {
